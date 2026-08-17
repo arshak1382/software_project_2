@@ -198,7 +198,7 @@ class TestRoleAccess:
         viewer_token = register_and_login(client, "viewer_del", "viewer_del@test.com", role="viewer")
         assert viewer_token is not None
         
-        resp = client.delete(f"/books/{book_id}/", headers=auth_header(viewer_token))
+        resp = client.delete(f"/books/delete/{book_id}/", headers=auth_header(viewer_token))
         assert resp.status_code == 403
     
     def test_editor_can_delete_book(self, client, db_session):
@@ -222,7 +222,7 @@ class TestRoleAccess:
         editor_token = register_and_login(client, "editor_del", "editor_del@test.com", role="editor")
         assert editor_token is not None
         
-        resp = client.delete(f"/books/{book_id}/", headers=auth_header(editor_token))
+        resp = client.delete(f"/books/delete/{book_id}/", headers=auth_header(editor_token))
         assert resp.status_code == 204
     
     def test_viewer_cannot_change_role(self, client, db_session):
