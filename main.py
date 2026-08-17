@@ -223,7 +223,7 @@ def get_book(
         )
     return book
 
-@app.put("/books/{book_id}/", response_model=BookResponse)
+@app.put("/books/update/{book_id}/", response_model=BookResponse)
 def update_book(
     book_id: int,
     book_update: BookCreate,
@@ -265,7 +265,7 @@ def update_book(
     return book
 
 
-@app.delete("/books/{book_id}/", status_code=status.HTTP_204_NO_CONTENT)
+@app.delete("/books/delete/{book_id}/", status_code=status.HTTP_204_NO_CONTENT)
 def delete_book(
     book_id: int,
     db: Session = Depends(get_db),
@@ -296,7 +296,7 @@ def delete_book(
     return None
 
 
-@app.post("/authors/", response_model=AuthorResponse, status_code=status.HTTP_201_CREATED)
+@app.post("/authors/craete/", response_model=AuthorResponse, status_code=status.HTTP_201_CREATED)
 def create_author(
     author: AuthorCreate,
     db: Session = Depends(get_db),
@@ -348,7 +348,7 @@ def get_author(
     return author
 
 
-@app.put("/authors/{author_id}/", response_model=AuthorResponse)
+@app.put("/authors/update/{author_id}/", response_model=AuthorResponse)
 def update_author(
     author_id: int,
     author_update: AuthorCreate,
@@ -384,7 +384,7 @@ def update_author(
     return author
 
 
-@app.delete("/authors/{author_id}/", status_code=status.HTTP_204_NO_CONTENT)
+@app.delete("/authors/delete/{author_id}/", status_code=status.HTTP_204_NO_CONTENT)
 def delete_author(
     author_id: int,
     db: Session = Depends(get_db),
@@ -531,7 +531,7 @@ def update_current_user(
 
     return current_user
 
-@app.delete("/users/{user_id}/", status_code=status.HTTP_204_NO_CONTENT)
+@app.delete("/users/delete/{user_id}/", status_code=status.HTTP_204_NO_CONTENT)
 def delete_user(
     user_id: int,
     db: Session = Depends(get_db),
