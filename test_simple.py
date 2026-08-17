@@ -1,12 +1,8 @@
-"""
-تست‌های ساده نقش‌ها (RBAC)
-پوشش حالت موفق و رد دسترسی
-"""
-
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.pool import StaticPool
 
 # ایمپورت همه مدل‌ها قبل از ایجاد جداول
 from main import app
@@ -17,7 +13,11 @@ from auth_user import secret_password_admin, secret_password_editor
 
 # ==================== تنظیم دیتابیس تست ====================
 
-engine = create_engine("sqlite:///:memory:", connect_args={"check_same_thread": False})
+engine = create_engine(
+    "sqlite:///:memory:",
+    connect_args={"check_same_thread": False},
+    poolclass=StaticPool,
+)
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
@@ -85,7 +85,7 @@ def register_and_login(client, username, email, role="viewer", db_session=None):
     })
     
     if resp.status_code != 201:
-        print(f"❌ خطا در ثبت‌نام: {resp.status_code} - {resp.text}")
+        print(f" خطا در ثبت‌نام: {resp.status_code} - {resp.text}")
         return None
     
     # لاگین
@@ -95,7 +95,7 @@ def register_and_login(client, username, email, role="viewer", db_session=None):
     })
     
     if login_resp.status_code != 200:
-        print(f"❌ خطا در لاگین: {login_resp.status_code} - {login_resp.text}")
+        print(f" خطا در لاگین: {login_resp.status_code} - {login_resp.text}")
         return None
     
     return login_resp.json()["access_token"]
